@@ -13,16 +13,15 @@ import java.util.List;
 
 public class SportDatabase_Project 
 {
-
-    public static void main(String[] args) 
+    public static void main(String args[])
     {
-        List<Types_Of_Sports> sports = Api.getTypesOfSport();
-        
-        for (int i = 0; i < sports.size(); i++)
+        // Soccer League
+        /*List<League> soccerLeagues = Api.getSoccerLeagues();
+    
+        for (int i = 0; i < soccerLeagues.size(); i++)
         {
-            Types_Of_Sports sport = sports.get(i);
-            
-            System.out.println(sport);
-        }
+            League league = soccerLeagues.get(i);
+            System.out.println(league);
+        }*/
     }
 }
