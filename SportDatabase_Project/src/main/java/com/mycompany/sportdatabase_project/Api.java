@@ -33,6 +33,7 @@ public class Api
             HttpRequest request = HttpRequest.newBuilder()
                 
                     .uri(URI.create(url))
+                    .header("x-apisports-key", "6cbe3df52a59ea3628950b58190dd6d9")
                     .GET()
                     .build();
         
@@ -45,5 +46,18 @@ public class Api
             System.out.println("Error while connecting: " + e.getMessage());
             return "";
         }
+    }
+    
+    public static List<Types_Of_Sports> getTypesOfSport()
+    {
+        List<Types_Of_Sports> sports = new ArrayList<>();
+        
+        sports.add(new Types_Of_Sports(1, "Soccer"));
+        sports.add(new Types_Of_Sports(2, "Handball"));
+        sports.add(new Types_Of_Sports(3, "Basketball"));
+        sports.add(new Types_Of_Sports(4, "Formula One"));
+        sports.add(new Types_Of_Sports(5, "MMA"));
+        
+        return sports;
     }
 }
