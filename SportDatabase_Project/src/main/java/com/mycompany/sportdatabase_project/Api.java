@@ -96,7 +96,7 @@ public class Api
             for (int j = 0; j < seasonsArray.size(); j++)
             {
                 JsonObject season = seasonsArray.get(j).getAsJsonObject();
-                String seasonYear = season.get("year").getAsString();
+                int seasonYear = season.get("year").getAsInt();
                 
                 League league = new League(sport_id, league_id, leagueName, seasonYear);
                 leagues.add(league);
@@ -132,10 +132,10 @@ public class Api
             JsonObject venue = fixture.getAsJsonObject("venue");
             JsonObject league = obj.getAsJsonObject("league");
             
-            int location_id = venue.get("id").getAsInt();
-            String stadium_name = venue.get("name").getAsString();
-            String city = venue.get("city").getAsString();
-            String country = league.get("country").getAsString();
+            int location_id = getSafeInt(venue, "id");
+            String stadium_name = getSafeString(venue, "name");
+            String city = getSafeString(venue, "city");
+            String country = getSafeString(league, "country");
             
             Location location = new Location(location_id, stadium_name, city, country);
             locations.add(location);
@@ -168,9 +168,9 @@ public class Api
             JsonObject obj = array.get(i).getAsJsonObject();
             JsonObject teamObj = obj.getAsJsonObject("team");
             
-            int team_id = teamObj.get("id").getAsInt();
-            String name = teamObj.get("name").getAsString();
-            String country = teamObj.get("country").getAsString();
+            int team_id = getSafeInt(teamObj, "id");
+            String name = getSafeString(teamObj, "name");
+            String country = getSafeString(teamObj, "country");
             
             Team team = new Team(team_id, name, country);
             teams.add(team);
@@ -201,48 +201,48 @@ public class Api
         for (int i = 0; i < array.size(); i++)
         {
             JsonObject obj = array.get(i).getAsJsonObject();
-            
             JsonObject fixture = obj.getAsJsonObject("fixture");
-            int match_id = fixture.get("id").getAsInt();
-            
             JsonObject leagueObj = obj.getAsJsonObject("league");
-            League league = new League
-            (
-                1,
-                leagueObj.get("id").getAsInt(),
-                leagueObj.get("name").getAsString(),
-                leagueObj.get("season").getAsString()
-            );
-            
             JsonObject venue = fixture.getAsJsonObject("venue");
-            Location location = new Location
-            (
-                venue.get("id").getAsInt(),
-                venue.get("name").getAsString(),
-                venue.get("city").getAsString(),
-                leagueObj.get("country").getAsString()
-            );
-            
             JsonObject teams = obj.getAsJsonObject("teams");
             JsonObject homeTeamObj = teams.getAsJsonObject("home");
             JsonObject awayTeamObj = teams.getAsJsonObject("away");
+            JsonObject goals = obj.getAsJsonObject("goals");
             
+            int match_id = getSafeInt(fixture, "id");
+            
+            League league = new League
+            (
+                1,
+                getSafeInt(leagueObj, "id"),
+                getSafeString(leagueObj, "name"),
+                getSafeInt(leagueObj, "season")
+            );
+            
+            Location location = new Location
+            (
+                getSafeInt(venue, "id"),
+                getSafeString(venue, "name"),
+                getSafeString(venue, "city"),
+                getSafeString(leagueObj, "country")
+            );
+           
             Team homeTeam = new Team
             (
-                homeTeamObj.get("id").getAsInt(),
-                homeTeamObj.get("name").getAsString(),
-                leagueObj.get("country").getAsString()
+                getSafeInt(homeTeamObj, "id"),
+                getSafeString(homeTeamObj, "name"),
+                getSafeString(leagueObj, "country")
             );
             
             Team awayTeam = new Team
             (
-                awayTeamObj.get("id").getAsInt(),
-                awayTeamObj.get("name").getAsString(),
-                awayTeamObj.get("country").getAsString()
+                getSafeInt(awayTeamObj, "id"),
+                getSafeString(awayTeamObj, "name"),
+                getSafeString(leagueObj, "country")
             );
             
-            int homeScore = obj.getAsJsonObject("goals").get("home").getAsInt();
-            int awayScore = obj.getAsJsonObject("goals").get("away").getAsInt();
+            int homeScore = getSafeInt(goals, "home");
+            int awayScore = getSafeInt(goals, "away");
             
             Integer winner;
             
@@ -264,5 +264,26 @@ public class Api
         }
         
         return matches;
+    }
+    
+    // Methods for NULL value
+    private static String getSafeString(JsonObject obj, String key)
+    {
+        if (obj == null || !obj.has(key) || obj.get(key).isJsonNull())
+        {
+            return "Unknown";
+        }
+        
+        return obj.get(key).getAsString();
+    }
+    
+    private static int getSafeInt(JsonObject obj, String key)
+    {
+        if (obj == null || !obj.has(key) || obj.get(key).isJsonNull())
+        {
+            return 0;
+        }
+        
+        return obj.get(key).getAsInt();
     }
 }

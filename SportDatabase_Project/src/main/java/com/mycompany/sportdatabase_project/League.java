@@ -5,9 +5,9 @@ class League
     int sport_id;
     int league_id;
     String name;
-    String season;
+    int season;
 
-    public League(int sport_id, int league_id, String name, String season) 
+    public League(int sport_id, int league_id, String name, int season) 
     {
         this.sport_id = sport_id;
         this.league_id = league_id;
@@ -45,12 +45,12 @@ class League
         this.name = name;
     }
 
-    public String getSeason() 
+    public int getSeason() 
     {
         return season;
     }
 
-    public void setSeason(String season) 
+    public void setSeason(int season) 
     {
         this.season = season;
     }
