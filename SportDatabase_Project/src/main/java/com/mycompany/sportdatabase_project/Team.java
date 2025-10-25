@@ -5,14 +5,12 @@ public class Team
     int team_id;
     String name;
     String country;
-    int founding_year;
 
-    public Team(int team_id, String name, String country, int founding_year) 
+    public Team(int team_id, String name, String country) 
     {
         this.team_id = team_id;
         this.name = name;
         this.country = country;
-        this.founding_year = founding_year;
     }
 
     public int getTeam_id() 
@@ -44,20 +42,10 @@ public class Team
     {
         this.country = country;
     }
-
-    public int getFounding_year() 
-    {
-        return founding_year;
-    }
-
-    public void setFounding_year(int founding_year) 
-    {
-        this.founding_year = founding_year;
-    }
     
     @Override
     public String toString()
     {
-        return "Team: " + name + "(City: " + country + ", Founding Year: " + founding_year + ")";
+        return "Team: " + name + "(City: " + country + ")";
     }
 }
