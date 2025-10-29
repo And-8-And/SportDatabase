@@ -46,6 +46,11 @@ public class Team
     @Override
     public String toString()
     {
-        return "Team: " + name + "(City: " + country + ")";
+        return name + " (Country: " + country + ")";
+    }
+    
+    public String toStringShort()
+    {
+        return name;
     }
 }

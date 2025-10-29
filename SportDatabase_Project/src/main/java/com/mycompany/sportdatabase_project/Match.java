@@ -106,11 +106,11 @@ public class Match
     @Override
     public String toString()
     {
-        String result = homeTeam + " " + homeScore + " - " + awayScore + " " + awayTeam;
+        String result = homeTeam.getName() + " " + homeScore + " - " + awayScore + " " + awayTeam.getName();
         
         if (winner == null)
         {
-            result += "Draw";
+            result += " (Draw)";
         }
         return result;
     }
