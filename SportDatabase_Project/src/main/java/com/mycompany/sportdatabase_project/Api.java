@@ -344,6 +344,7 @@ public class Api
         return locations;
     }
     
+    // (Handball) Method for Team.java
     public static List<Team> getHandballTeams(int league_id, int season)
     {
         List<Team> teams = new ArrayList<>();
@@ -379,6 +380,7 @@ public class Api
         return teams;
     }
     
+    // (Handball) Method for Match.java
     public static List<Match> getHandballMatches(int league_id, int season)
     {
         List<Match> matches = new ArrayList<>();
