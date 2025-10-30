@@ -13,18 +13,6 @@ import java.util.List;
 
 public class Api 
 {
-    static class Sport
-    {
-        int id;
-        String name;
-        
-        public Sport(int id, String name)
-        {
-            this.id = id;
-            this.name = name; 
-        }
-    }
-    
     // GET method for API
     public static String get(String url)
     {
@@ -49,20 +37,17 @@ public class Api
         }
     }
     
-    // Static method for Types_Of_Sports.java
-    public static List<Types_Of_Sports> getTypesOfSport()
+    // Static Method for Types_Of_Sports.java
+    public static List<Types_Of_Sports> getTypesOfSports()
     {
         List<Types_Of_Sports> sports = new ArrayList<>();
         
         sports.add(new Types_Of_Sports(1, "Soccer"));
         sports.add(new Types_Of_Sports(2, "Handball"));
-        sports.add(new Types_Of_Sports(3, "Basketball"));
-        sports.add(new Types_Of_Sports(4, "Formula One"));
-        sports.add(new Types_Of_Sports(5, "MMA"));
         
         return sports;
     }
-    /*
+    
     // (Soccer) Method for League.java
     public static List<League> getSoccerLeagues()
     {
@@ -263,7 +248,7 @@ public class Api
         }
         
         return matches;
-    }*/
+    }
     
     // (Handball) Method for League.java
     public static List<League> getHandballLeagues()
@@ -329,15 +314,11 @@ public class Api
         for (int i = 0; i < array.size(); i++)
         {
             JsonObject obj = array.get(i).getAsJsonObject();
-            JsonObject venue = obj.getAsJsonObject("venue");
             JsonObject countryObj = obj.getAsJsonObject("country");
 
-            int location_id = getSafeInt(venue, "id");
-            String stadium_name = getSafeString(venue, "name");
-            String city = getSafeString(venue, "city");
             String country = getSafeString(countryObj, "name");
 
-            Location location = new Location(location_id, stadium_name, city, country);
+            Location location = new Location(i + 1, "Unknown", "Unknown", country);
             locations.add(location);
         }
         
@@ -366,15 +347,21 @@ public class Api
         for (int i = 0; i < array.size(); i++)
         {
             JsonObject obj = array.get(i).getAsJsonObject();
-            JsonObject teamObj = obj.getAsJsonObject("team");
+            JsonObject teamObj = obj.getAsJsonObject("teams");
             JsonObject countryObj = obj.getAsJsonObject("country");
-
-            int team_id = getSafeInt(teamObj, "id");
-            String name = getSafeString(teamObj, "name");
+            JsonObject home = teamObj.getAsJsonObject("home");
+            JsonObject away = teamObj.getAsJsonObject("away");
+            
+            int homeId = getSafeInt(home, "id");
+            String homeName = getSafeString(home, "name");
+            int awayId = getSafeInt(away, "id");
+            String awayName = getSafeString(away, "name");
             String country = getSafeString(countryObj, "name");
 
-            Team team = new Team(team_id, name, country);
-            teams.add(team);
+            Team homeTeam = new Team(homeId, homeName, country);
+            Team awayTeam = new Team(awayId, awayName, country);
+            teams.add(homeTeam);
+            teams.add(awayTeam);
         }
         
         return teams;
@@ -387,7 +374,7 @@ public class Api
 
         String url = "https://v1.handball.api-sports.io/games?league=" + league_id + "&season=" + season;
         String json = get(url);
-
+        System.out.println("JSON:\n" + json);
         if (json.isEmpty())
         {
             System.out.println("No data received from Handball API");
@@ -476,7 +463,7 @@ public class Api
         }
         
         return obj.get(key).getAsString();
-    }
+    }   
     
     private static int getSafeInt(JsonObject obj, String key)
     {

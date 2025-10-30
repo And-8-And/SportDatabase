@@ -52,5 +52,5 @@ public class Team
     public String toStringShort()
     {
         return name;
-    }
+    }   
 }

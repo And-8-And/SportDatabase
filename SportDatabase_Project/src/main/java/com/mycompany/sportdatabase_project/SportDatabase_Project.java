@@ -9,7 +9,7 @@ public class SportDatabase_Project
     {
         /*
         // Types Of Sports
-        List<Types_Of_Sports> sports = Api.getTypesOfSport();
+        List<Types_Of_Sports> sports = Api.getTypesOfSports();
         System.out.println("===== SPORT TYPES =====\n");
         for (int i = 0; i < sports.size(); i++)
         {
@@ -52,8 +52,9 @@ public class SportDatabase_Project
             System.out.println(matches.get(i).toString());
         }*/
         
+        
         // Types Of Sports
-        List<Types_Of_Sports> sports = Api.getTypesOfSport();
+        List<Types_Of_Sports> sports = Api.getTypesOfSports();
         System.out.println("===== SPORT TYPES =====\n");
         for (int i = 0; i < sports.size(); i++)
         {
@@ -95,5 +96,7 @@ public class SportDatabase_Project
         {
             System.out.println(matches.get(i).toString());
         }
+        
+        java.awt.EventQueue.invokeLater(() -> new GUI().setVisible(true));
     }
 }
